@@ -18,24 +18,6 @@
               Incorrect security phrase. Please try again.
             </div>
             {% endif %}
-            {% if template_data.security_phrase_ok %}
-            <form method="POST" action="">
-              {% csrf_token %}
-              <div class="mb-3 text-center">
-                <label for="new_password" class="form-label">New Password</label>
-                <input type="password" id="new_password" name="new_password" class="form-control" required>
-              </div>
-              <div class="mb-3 text-center">
-                <label for="confirm_password" class="form-label">Confirm New Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn bg-dark text-white">
-                  Reset Password
-                </button>
-              </div>
-            </form>
-            {% endif %}
             <form method="POST">
               {% csrf_token %}
 
@@ -48,9 +30,9 @@
                 <input type="text" id="security_phrase" name="security_phrase" class="form-control" required>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn bg-dark text-white">
+                <a href="{% url 'accounts.resetpass' %}" class="btn bg-dark text-white">
                   Submit
-                </button>
+                </a>
               </div>
             </form>
           </div>

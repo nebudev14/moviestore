@@ -53,7 +53,7 @@ def forgetpass(request):
             try:
                 user = User.objects.get(username=username)
                 security_phrase = SecurityPhrase.objects.get(phrase=phrase, user=user)
-                return redirect('accounts.login')
+                return redirect('accounts.resetpass')
             except (User.DoesNotExist, SecurityPhrase.DoesNotExist):
                 template_data['error'] = 'The security phrase is incorrect.'
                 return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
@@ -62,6 +62,12 @@ def forgetpass(request):
             return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
     else:
         return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
+
+def resetpass(request):
+    template_data = {}
+    template_data['title'] = 'Reset Password'
+    if request.method == 'GET':
+        return render(request, 'accounts/resetpass.html', {'template_data': template_data})
 
 @login_required
 def orders(request):
