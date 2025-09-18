@@ -4,6 +4,7 @@ from .forms import CustomUserCreationForm, CustomErrorList
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .models import SecurityPhrase
 
 @login_required
 def logout(request):
@@ -39,6 +40,28 @@ def signup(request):
         else:
             template_data['form'] = form
             return render(request, 'accounts/signup.html', {'template_data': template_data})
+
+def forgetpass(request):
+    template_data = {}
+    template_data['title'] = 'Forget Password'
+    if request.method == 'GET':
+        return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        phrase = request.POST.get('security_phrase')
+        if username and phrase:
+            try:
+                user = User.objects.get(username=username)
+                security_phrase = SecurityPhrase.objects.get(phrase=phrase, user=user)
+                return redirect('accounts.login')
+            except (User.DoesNotExist, SecurityPhrase.DoesNotExist):
+                template_data['error'] = 'The security phrase is incorrect.'
+                return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
+        else:
+            template_data['error'] = 'The security phrase is incorrect.'
+            return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
+    else:
+        return render(request, 'accounts/forgetpass.html', {'template_data': template_data})
 
 @login_required
 def orders(request):

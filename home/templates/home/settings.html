@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>Settings</h2>
+        <hr />
+        <p>Enter security phrase</p>
+        <form method="POST">
+          {% csrf_token %}
+          <input required class="form-control" id="sec" />
+          <button type="submit" class="btn bg-dark text-white mt-4">
+            Save Phrase
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
